@@ -26,23 +26,21 @@ public class JpaApplicationController {
 
     @GetMapping(path = "{studentId}")
     public Student getStudentById(@PathVariable Integer studentId){
-        return new Student("Vipin Patel");
+        return jpaApplicationService.getStudentById(studentId);
     }
 
-    @DeleteMapping(path = "{student}")
+    @DeleteMapping(path = "{studentId}")
     public void deleteStudentById(@PathVariable Integer studentId){
-        System.out.println("StudentId "+studentId);
+        jpaApplicationService.deletStudentById(studentId);
     }
 
     @PutMapping(path = "{studentId}")
     public void updateStudent(@PathVariable Integer studentId, @RequestBody Student student){
-        System.out.println(" Student " + student);
+        jpaApplicationService.updateStudent(studentId,student);
     }
 
     @PostMapping
     public void addStudent(@RequestBody Student student){
-        System.out.println(
-                "Student Object " + student
-        );
+        jpaApplicationService.addStudent(student);
     }
 }

@@ -18,6 +18,36 @@ public class JpaApplicationService {
     }
 
     public List<Student> getAllStudents(){
-        return null;
+        return jpaApplicationRepository.findAll();
+    }
+
+    public Student getStudentById(Integer studentId){
+        boolean exist =jpaApplicationRepository.existsById(studentId);
+    if (!exist){
+        throw new IllegalArgumentException("Student does not exist" );
+    }
+        return jpaApplicationRepository.findById(studentId).get();
+    }
+
+    public void deletStudentById(Integer studentId){
+        boolean exist =jpaApplicationRepository.existsById(studentId);
+        if (!exist){
+            throw new IllegalArgumentException("Student does not exist" );
+        }
+        jpaApplicationRepository.deleteById(studentId);
+    }
+
+    public void addStudent(Student student){
+        if(student.getStudentName().isEmpty() || null==student.getStudentName()){
+            throw new IllegalArgumentException("Student does not exist" );
+        }
+        jpaApplicationRepository.save(student);
+    }
+
+    public void updateStudent(Integer studentId, Student student){
+        boolean exist =jpaApplicationRepository.existsById(studentId);
+        if (!exist){
+            throw new IllegalArgumentException("Student does not exist" );
+        }
     }
 }

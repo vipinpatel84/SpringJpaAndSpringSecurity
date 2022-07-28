@@ -6,7 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class JpaApplicationTests {
 
-	@Test
+	//@Test
+
 	void contextLoads() {
 	}
 
