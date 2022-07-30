@@ -1,5 +1,6 @@
 package com.springdata.jpa.config;
 
+import com.springdata.jpa.roles.JpaApplicationRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import static com.springdata.jpa.roles.JpaApplicationRoles.ADMIN;
+import static com.springdata.jpa.roles.JpaApplicationRoles.STUDENT;
 
 @Configuration
 @EnableWebSecurity
@@ -39,8 +43,8 @@ public class JpaApplicationSecurityConfiguration extends WebSecurityConfigurerAd
                 .authorizeRequests()
                 .antMatchers("/","index")
                 .permitAll()
-                .antMatchers("/api/**").hasRole("STUDENT")
-                .antMatchers("/management/api/**").hasRole("ADMIN")
+                .antMatchers("/api/**").hasRole(STUDENT.name())
+                .antMatchers("/management/api/**").hasRole(ADMIN.name())
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -60,13 +64,13 @@ public class JpaApplicationSecurityConfiguration extends WebSecurityConfigurerAd
         UserDetails user= User.builder()
                 .username("vipin")
                 .password(passwordEncoder.encode("password123"))
-                .roles("STUDENT")
+                .roles(STUDENT.name())
                 .build();
 
         UserDetails adminUser = User.builder()
                 .username("admin")
                 .password(passwordEncoder.encode("admin"))
-                .roles("ADMIN")
+                .roles(ADMIN.name())
                 .build();
         return new InMemoryUserDetailsManager(user,adminUser);
 
