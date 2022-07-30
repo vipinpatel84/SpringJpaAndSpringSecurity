@@ -29,6 +29,8 @@ public class JpaApplicationSecurityConfiguration extends WebSecurityConfigurerAd
      * @param http
      * @throws Exception
      * Method allow authorizeRequests any Request and Authenticate
+     * Ant matcher are used to white list the url.
+     * WE can define set of Role so that specific role can access the api
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -38,6 +40,7 @@ public class JpaApplicationSecurityConfiguration extends WebSecurityConfigurerAd
                 .antMatchers("/","index")
                 .permitAll()
                 .antMatchers("/api/**").hasRole("STUDENT")
+                .antMatchers("/management/api/**").hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -60,7 +63,12 @@ public class JpaApplicationSecurityConfiguration extends WebSecurityConfigurerAd
                 .roles("STUDENT")
                 .build();
 
-        return new InMemoryUserDetailsManager(user);
+        UserDetails adminUser = User.builder()
+                .username("admin")
+                .password(passwordEncoder.encode("admin"))
+                .roles("ADMIN")
+                .build();
+        return new InMemoryUserDetailsManager(user,adminUser);
 
     }
 }

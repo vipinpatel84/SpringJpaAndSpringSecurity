@@ -8,21 +8,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/student")
-public class JpaApplicationController {
+@RequestMapping("/management/api/students")
+public class JpaApplicationManagementController {
 
-    private JpaApplicationService jpaApplicationService;
+    private final JpaApplicationService jpaApplicationService;
 
     @Autowired
-    public JpaApplicationController(JpaApplicationService jpaApplicationService) {
+    public JpaApplicationManagementController(JpaApplicationService jpaApplicationService) {
         this.jpaApplicationService = jpaApplicationService;
     }
 
-//    @GetMapping
-//    public List<Student> getAllStudentList(){
-//        List<Student> studentList= jpaApplicationService.getAllStudents();
-//        return studentList;
-//    }
+    @GetMapping
+    public List<Student> getAllStudentList(){
+        return jpaApplicationService.getAllStudents();
+    }
 
     @GetMapping(path = "{studentId}")
     public Student getStudentById(@PathVariable Integer studentId){
