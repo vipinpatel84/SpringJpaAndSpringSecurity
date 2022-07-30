@@ -18,10 +18,15 @@ public class JpaApplicationSecurityConfiguration extends WebSecurityConfigurerAd
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/**")
+                .antMatchers("/","index")
                 .permitAll()
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+                .and()
+                .httpBasic();
     }
+
+
 }
