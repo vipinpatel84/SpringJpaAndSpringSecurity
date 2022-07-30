@@ -1,13 +1,28 @@
 package com.springdata.jpa.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
 @EnableWebSecurity
 public class JpaApplicationSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public JpaApplicationSecurityConfiguration(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+
 
     /**
      *
@@ -22,11 +37,30 @@ public class JpaApplicationSecurityConfiguration extends WebSecurityConfigurerAd
                 .authorizeRequests()
                 .antMatchers("/","index")
                 .permitAll()
+                .antMatchers("/api/**").hasRole("STUDENT")
                 .anyRequest()
                 .authenticated()
                 .and()
                 .httpBasic();
     }
 
+    /**
+     *  Method will give user based details for authentication.
+     *  In Memory Database is used to save user details and password
+     *  UserDetails are used to build user
+     *  Password mapping is required and This can be achieve by password Encoder
+     * @return
+     */
+    @Override
+    @Bean
+    protected UserDetailsService userDetailsService() {
+        UserDetails user= User.builder()
+                .username("vipin")
+                .password(passwordEncoder.encode("password123"))
+                .roles("STUDENT")
+                .build();
 
+        return new InMemoryUserDetailsManager(user);
+
+    }
 }
