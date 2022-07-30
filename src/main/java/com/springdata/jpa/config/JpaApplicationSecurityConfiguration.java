@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import static com.springdata.jpa.roles.JpaApplicationRolePermission.COURSE_WRITE;
 import static com.springdata.jpa.roles.JpaApplicationRolePermission.STUDENT_WRITE;
 import static com.springdata.jpa.roles.JpaApplicationRoles.*;
 
@@ -46,7 +47,10 @@ public class JpaApplicationSecurityConfiguration extends WebSecurityConfigurerAd
                 .antMatchers("/","index")
                 .permitAll()
                 .antMatchers("/api/**").hasRole(STUDENT.name())
-                .antMatchers(HttpMethod.DELETE,"/management/api/**").hasAnyAuthority(STUDENT_WRITE.name())
+                .antMatchers(HttpMethod.DELETE,"/management/api/**").hasAnyAuthority(COURSE_WRITE.name())
+                .antMatchers(HttpMethod.POST,"/management/api/**").hasAnyAuthority(COURSE_WRITE.name())
+                .antMatchers(HttpMethod.PUT,"/management/api/**").hasAnyAuthority(COURSE_WRITE.name())
+                .antMatchers(HttpMethod.GET,"/management/api/**").hasAnyRole(ADMIN.name(), ADMINTRAINEE.name())
                 .anyRequest()
                 .authenticated()
                 .and()
