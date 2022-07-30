@@ -51,7 +51,12 @@ public class JpaApplicationSecurityConfiguration extends WebSecurityConfigurerAd
                 .anyRequest()
                 .authenticated()
                 .and()
-                .httpBasic();
+                //.httpBasic(); //Basic Authentication
+                .formLogin()
+                .loginPage(
+                        "/login"
+                )
+                .permitAll();
     }
 
     /**
@@ -59,6 +64,7 @@ public class JpaApplicationSecurityConfiguration extends WebSecurityConfigurerAd
      *  In Memory Database is used to save user details and password
      *  UserDetails are used to build user
      *  Password mapping is required and This can be achieve by password Encoder
+     * userName can't be same in UserDetails, it won't allow application to be up, if userName remains same
      * @return
      */
     @Override
