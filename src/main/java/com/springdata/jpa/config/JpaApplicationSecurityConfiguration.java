@@ -1,7 +1,5 @@
 package com.springdata.jpa.config;
 
-import com.springdata.jpa.roles.JpaApplicationRolePermission;
-import com.springdata.jpa.roles.JpaApplicationRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import static com.springdata.jpa.roles.JpaApplicationRolePermission.COURSE_WRITE;
-import static com.springdata.jpa.roles.JpaApplicationRolePermission.STUDENT_WRITE;
 import static com.springdata.jpa.roles.JpaApplicationRoles.*;
 
 @Configuration
@@ -80,8 +77,8 @@ public class JpaApplicationSecurityConfiguration extends WebSecurityConfigurerAd
                 .build();
 
         UserDetails adminUserTrainee = User.builder()
-                .username("admin")
-                .password(passwordEncoder.encode("admin"))
+                .username("adminTrainee")
+                .password(passwordEncoder.encode("adminTrainee"))
                 .roles(ADMINTRAINEE.name())
                 .build();
 

@@ -1,6 +1,5 @@
 package com.springdata.jpa.roles;
 
-import com.google.*;
 import com.google.common.collect.Sets;
 
 import java.util.Set;
